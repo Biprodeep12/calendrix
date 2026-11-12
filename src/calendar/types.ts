@@ -310,7 +310,8 @@ export type CalendarProps = {
 
   /**
    * How months are laid out when `numberOfMonths > 1`. Default: "row" for
-   * `variant="desktop"` (unless `pastMonthsCount` is set), otherwise "stack".
+   * `variant="desktop"` with up to 3 months (unless `pastMonthsCount` or
+   * `initialMonthsToRender` is set), otherwise "stack".
    * "row" places them side by side, hides the shared header title, puts the
    * prev arrow at the far left and next arrow at the far right of the
    * month-title row, centres each month's title, and turns off the

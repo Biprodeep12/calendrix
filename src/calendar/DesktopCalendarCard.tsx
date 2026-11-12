@@ -3,6 +3,7 @@ import { Calendar } from "./Calendar";
 import { SmartSuggestionsStrip } from "./SmartSuggestions";
 import { startOfDay } from "./dateUtils";
 import { themeClasses, themeToStyle } from "./themeUtils";
+import { resolveMonthsLayout } from "./layoutUtils";
 import type {
   CalendarRange,
   CalendarValue,
@@ -114,9 +115,13 @@ export function DesktopCalendarCard(props: DesktopCalendarCardProps) {
   // Same rule as Calendar: desktop shows months side by side unless told to stack
   // or set up for scrolling (pastMonthsCount).
   const isRowLayout =
-    numberOfMonths > 1 &&
-    (calendarProps.monthsLayout ?? (calendarProps.pastMonthsCount == null ? "row" : "stack")) ===
-      "row";
+    resolveMonthsLayout({
+      monthsLayout: calendarProps.monthsLayout,
+      variant: "desktop",
+      numberOfMonths,
+      pastMonthsCount: calendarProps.pastMonthsCount,
+      initialMonthsToRender: calendarProps.initialMonthsToRender,
+    }) === "row";
   const defaultWidth = isRowLayout ? numberOfMonths * 345 + 40 + (hasSidebar ? 230 : 0) : 610;
   const nightsText = nights > 0 ? ` (${nights} Night${nights > 1 ? "s" : ""})` : "";
 
@@ -246,7 +251,8 @@ export function DesktopCalendarCard(props: DesktopCalendarCardProps) {
       className={["rcss-desktop-card", ...themeClasses(theme), className].filter(Boolean).join(" ")}
       style={{
         ...themeToStyle(theme),
-        width: toCssLength(width ?? defaultWidth),
+        // With the hanging tab, the shell carries the width (so % widths work).
+        width: datesInTab ? "100%" : toCssLength(width ?? defaultWidth),
         ...style,
       }}
     >
@@ -291,7 +297,7 @@ export function DesktopCalendarCard(props: DesktopCalendarCardProps) {
 
   // The card clips its overflow, so the tab sits in a wrapper right under it.
   return (
-    <div className="rcss-desktop-card-shell">
+    <div className="rcss-desktop-card-shell" style={{ width: toCssLength(width ?? defaultWidth) }}>
       {card}
       {/* Only once a date is picked — no "Select Dates" placeholder. */}
       {hasAnyDate && (

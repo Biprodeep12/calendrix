@@ -273,7 +273,7 @@ Add badges, icons, or holiday counts to month headers:
 | Prop | Type | Default | Description |
 |---|---|---|---|
 | `numberOfMonths` | `number` | `1` | Number of months to display |
-| `monthsLayout` | `"stack" \| "row"` | `"row"` on desktop, else `"stack"` | `"row"` shows months side by side: no shared header title, prev arrow at the far left and next at the far right of the month-title row, titles centred, no scroll-to-month (arrows only). Ignores `pastMonthsCount` / `initialMonthsToRender` |
+| `monthsLayout` | `"stack" \| "row"` | `"row"` on desktop (up to 3 months, non-scrolling), else `"stack"` | `"row"` shows months side by side: no shared header title, prev arrow at the far left and next at the far right of the month-title row, titles centred, no scroll-to-month (arrows only). Ignores `pastMonthsCount` / `initialMonthsToRender` |
 | `variant` | `"mobile" \| "desktop"` | — | Layout variant |
 | `showNavigation` | `boolean` | `true` | Show prev/next arrows |
 | `weekStartsOn` | `0–6` | `1` (Mon) | First day of the week (0 = Sun) |

@@ -31,6 +31,7 @@ import {
   SmartSuggestionsMobile,
 } from "./SmartSuggestions";
 import { themeClasses, themeToStyle } from "./themeUtils";
+import { resolveMonthsLayout } from "./layoutUtils";
 import type {
   CalendarProps,
   CalendarRange,
@@ -170,10 +171,14 @@ export function Calendar(props: CalendarProps) {
   // Side-by-side months: a fixed window of `numberOfMonths`, moved by the arrows.
   // Desktop shows multiple months side by side unless the consumer set up
   // scrolling (pastMonthsCount) or asked for "stack" explicitly.
-  const resolvedMonthsLayout =
-    monthsLayout ??
-    (variant === "desktop" && pastMonthsCount == null ? "row" : "stack");
-  const isRowLayout = resolvedMonthsLayout === "row" && numberOfMonths > 1;
+  const isRowLayout =
+    resolveMonthsLayout({
+      monthsLayout,
+      variant,
+      numberOfMonths,
+      pastMonthsCount,
+      initialMonthsToRender,
+    }) === "row";
 
   const [selectedAny, setSelectedAny] = useControllableState<
     CalendarValue | CalendarRange
@@ -519,8 +524,16 @@ export function Calendar(props: CalendarProps) {
       const targetMonth = startOfMonth(suggestion.from);
 
       // Desktop single-month / side-by-side months: navigate to the month
-      if (numberOfMonths <= 1 || isRowLayout) {
+      if (numberOfMonths <= 1) {
         setVisibleMonth(targetMonth);
+      } else if (isRowLayout) {
+        // Don't shift the window if the month is already on screen.
+        const alreadyVisible = months.some(
+          (m) =>
+            m.getFullYear() === targetMonth.getFullYear() &&
+            m.getMonth() === targetMonth.getMonth(),
+        );
+        if (!alreadyVisible) setVisibleMonth(targetMonth);
       }
 
       // Mobile / stacked multi-month: ensure month is rendered and scroll to it
