@@ -71,7 +71,8 @@ const SAFFRON_BASE: DemoOptions = {
   ...DEFAULT_OPTIONS,
   variant: "desktop",
   dayContent: "builtin",
-  eventDisplay: "dot",
+  // All SaffronStays calendars mark holidays as red dates.
+  eventDisplay: "color",
   showEventTooltip: true,
   navIcon: "chevron",
   themePreset: "saffron",
@@ -90,11 +91,10 @@ export const FRONTEND_PRESETS: { label: string; options: DemoOptions }[] = [
       numberOfMonths: 2,
       monthsLayout: "row",
       showTitle: false,
-      // Suggestions in the footer (chips) with dates + Continue on the right; holidays as red dates.
+      // Suggestions in the footer (chips) with Continue on the right.
       showSuggestions: true,
       suggestionsPlacement: "footer",
       suggestionsStyle: "cards",
-      eventDisplay: "color",
       // Step hint above Continue; picked dates + Clear in a tab hanging under the card.
       showStepHint: true,
       stepHintPlacement: "footer",
