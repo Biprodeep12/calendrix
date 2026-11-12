@@ -343,6 +343,19 @@
   opacity: 1;
 }
 
+/* First / last column: pin the tooltip to that edge so it isn't clipped by the
+   card or sheet (or widen a scroll area) when the name is wider than the day. */
+.rcss-cal-grid > .rcss-cal-cell:nth-child(7n + 1) .rcss-cal-eventTooltip {
+  left: 0;
+  transform: none;
+}
+
+.rcss-cal-grid > .rcss-cal-cell:nth-child(7n) .rcss-cal-eventTooltip {
+  left: auto;
+  right: 0;
+  transform: none;
+}
+
 /* ─── Blocked dates ─── */
 
 .rcss-cal-cell.is-blocked {

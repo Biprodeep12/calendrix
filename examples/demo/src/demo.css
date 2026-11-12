@@ -518,3 +518,12 @@ body {
 .pgPresetBtn:hover {
   background: #fff3dc;
 }
+
+/* Phones: the collapsed panel sits bottom-right, above the sheet footer,
+   so it doesn't cover the sheet's suggestions toggle. */
+@media (max-width: 600px) {
+  .pg--closed {
+    top: auto;
+    bottom: 96px;
+  }
+}
